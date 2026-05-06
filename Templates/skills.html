@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<!-- Skills Section -->
+<section id="skills" class="py-32 bg-white dark:bg-darkBg transition-colors duration-500 border-t border-zinc-200 dark:border-zinc-800">
+    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+        <div class="text-center mb-20" data-aos="fade-up">
+            <h2 class="text-sm font-semibold text-primary dark:text-indigo-400 tracking-wider uppercase mb-3">Expertise</h2>
+            <h3 class="text-4xl font-bold text-zinc-900 dark:text-white">My Skills</h3>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {% for skill in skills %}
+            <div class="group bg-zinc-50 dark:bg-darkCard rounded-2xl p-8 transition-all duration-300 border border-zinc-100 dark:border-zinc-800 hover:border-primary/50 dark:hover:border-indigo-400/50" data-aos="zoom-in" data-aos-delay="{{ forloop.counter0 }}50">
+                <div class="flex justify-between items-end mb-4">
+                    <h4 class="text-lg font-semibold text-zinc-900 dark:text-white">{{ skill.name }}</h4>
+                    <span class="text-sm font-medium text-zinc-500 dark:text-zinc-400">{{ skill.proficiency }}%</span>
+                </div>
+                <div class="w-full bg-zinc-200 dark:bg-zinc-700 rounded-full h-2 overflow-hidden">
+                    <div class="bg-primary dark:bg-indigo-500 h-2 rounded-full transition-all duration-1000 group-hover:bg-primaryHover" style="width: {{ skill.proficiency }}%"></div>
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center text-zinc-500 dark:text-mutedDark col-span-full">No skills added yet.</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %}

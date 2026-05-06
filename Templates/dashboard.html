@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="min-h-screen bg-zinc-50 dark:bg-darkBg py-8">
+    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+        <div class="mb-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <div>
+                <h1 class="text-3xl font-bold text-zinc-900 dark:text-white">Dashboard</h1>
+                <p class="text-zinc-600 dark:text-mutedDark mt-2">Your personalized portfolio analytics and recent activity.</p>
+            </div>
+            <div class="flex items-center gap-3">
+                <a href="{% url 'home' %}" class="inline-flex items-center justify-center rounded-full bg-primary px-5 py-2.5 text-sm font-medium text-white hover:bg-primaryHover transition-colors">Back to Site</a>
+                <a href="{% url 'logout' %}" class="inline-flex items-center justify-center rounded-full border border-zinc-200 bg-white px-5 py-2.5 text-sm font-medium text-zinc-700 hover:border-zinc-300 hover:bg-zinc-50 dark:border-zinc-700 dark:bg-darkCard dark:text-zinc-200 dark:hover:border-zinc-600">Logout</a>
+            </div>
+        </div>
+
+        <div class="grid gap-6 md:grid-cols-3 mb-8">
+            <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-darkCard">
+                <p class="text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Total Visits</p>
+                <p class="mt-4 text-4xl font-semibold text-zinc-900 dark:text-white">{{ total_visits }}</p>
+                <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">All pages you've visited while signed in.</p>
+            </div>
+            <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-darkCard">
+                <p class="text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Last Visit</p>
+                <p class="mt-4 text-2xl font-semibold text-zinc-900 dark:text-white">{% if last_visit %}{{ last_visit.page_name }}{% else %}-{% endif %}</p>
+                <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">{% if last_visit %}{{ last_visit.timestamp|date:'M d, Y H:i' }}{% else %}No visits recorded yet.{% endif %}</p>
+            </div>
+            <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-darkCard">
+                <p class="text-sm uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Active Session</p>
+                <p class="mt-4 text-2xl font-semibold text-zinc-900 dark:text-white">{{ request.user.username }}</p>
+                <p class="mt-2 text-sm text-zinc-500 dark:text-zinc-400">Signed in as {{ request.user.email }}</p>
+            </div>
+        </div>
+
+        <div class="rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-800 dark:bg-darkCard">
+            <div class="flex items-center justify-between mb-6">
+                <div>
+                    <h2 class="text-xl font-bold text-zinc-900 dark:text-white">Recent Visits</h2>
+                    <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-1">Latest pages you opened while logged in.</p>
+                </div>
+            </div>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-800">
+                    <thead class="bg-zinc-50 dark:bg-zinc-900">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Page</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Path</th>
+                            <th class="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Time</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-200 dark:divide-zinc-800">
+                        {% for visit in recent_visits %}
+                        <tr class="hover:bg-zinc-50 dark:hover:bg-zinc-800/50">
+                            <td class="px-4 py-4 text-sm text-zinc-900 dark:text-white">{{ visit.page_name }}</td>
+                            <td class="px-4 py-4 text-sm text-zinc-500 dark:text-zinc-400">{{ visit.path }}</td>
+                            <td class="px-4 py-4 text-sm text-zinc-500 dark:text-zinc-400">{{ visit.timestamp|date:'M d, Y H:i' }}</td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="3" class="px-4 py-8 text-center text-sm text-zinc-500 dark:text-zinc-400">No activity recorded yet.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        {% if request.user.is_staff or request.user.is_superuser %}
+        <div class="mt-8 text-center">
+            <a href="{% url 'admin_dashboard' %}" class="inline-flex items-center justify-center rounded-full bg-primary px-6 py-3 text-sm font-medium text-white hover:bg-primaryHover transition-colors">Open Admin Analytics</a>
+        </div>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}
