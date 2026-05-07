@@ -21,7 +21,7 @@
                         darkBg: '#0f172a', // Slate 900
                         darkCard: '#1e293b', // Slate 800
                         darkText: '#f8fafc', // Slate 50
-                        mutedDark: '#94a3b8', // Slate 400
+                        mutedDark: '#cbd5e1', // Slate 300 (brighter for better contrast)
                     },
                     fontFamily: {
                         sans: ['Inter', 'sans-serif'],
@@ -48,6 +48,66 @@
     </script>
     <style>
         body { font-family: 'Inter', sans-serif; }
+        
+        /* Gradient Animation */
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        
+        .animate-gradient {
+            background-size: 200% 200%;
+            animation: gradient 3s ease infinite;
+        }
+        
+        /* Smooth Scroll */
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        /* Glassmorphism effect */
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        /* Scroll animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .fade-in-up {
+            animation: fadeInUp 0.6s ease-out;
+        }
+        
+        /* Floating animation for elements */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        
+        .animate-float {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Hover glow effect */
+        .hover-glow:hover {
+            box-shadow: 0 0 20px rgba(79, 70, 229, 0.3);
+        }
+        
+        /* Dark mode glow */
+        .dark .hover-glow:hover {
+            box-shadow: 0 0 25px rgba(129, 140, 248, 0.3);
+        }
     </style>
 </head>
 <body class="bg-zinc-50 text-zinc-900 dark:bg-zinc-950 dark:text-zinc-100 font-sans antialiased transition-colors duration-500">
@@ -63,22 +123,11 @@
                 </div>
                 <div class="flex items-center space-x-8">
                     <a href="{% url 'home' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Home</a>
+                    <a href="{% url 'about' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">About</a>
                     <a href="{% url 'experience' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Experience</a>
                     <a href="{% url 'skills' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Skills</a>
                     <a href="{% url 'projects' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Projects</a>
                     <a href="{% url 'contact' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Contact</a>
-
-                    {% if user.is_authenticated %}
-                        <a href="{% url 'dashboard' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Dashboard</a>
-                        {% if user.is_staff or user.is_superuser %}
-                        <a href="{% url 'admin_dashboard' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Admin Analytics</a>
-                        {% endif %}
-                        <a href="{% url 'logout' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Logout</a>
-                    {% else %}
-                        <a href="{% url 'login' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Login</a>
-                        <a href="{% url 'signup' %}" class="text-sm font-medium text-zinc-600 dark:text-zinc-300 hover:text-primary dark:hover:text-indigo-400 transition-colors hidden md:block">Sign Up</a>
-                    {% endif %}
-                    
                     <!-- Theme Toggle Button -->
                     <button id="theme-toggle" type="button" class="text-zinc-500 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-zinc-700 focus:outline-none focus:ring-2 focus:ring-zinc-200 dark:focus:ring-zinc-700 rounded-full text-sm p-2.5 transition-colors">
                         <!-- Dark Icon -->
@@ -114,7 +163,7 @@
     <!-- Footer -->
     <footer class="bg-white dark:bg-darkCard text-zinc-600 dark:text-mutedDark py-12 transition-colors duration-500 border-t border-zinc-200 dark:border-zinc-800">
         <div class="max-w-7xl mx-auto px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center">
-            <p class="text-sm">&copy; {% now "Y" %} Meher Shaikh. Designed with precision.</p>
+            <p class="text-sm">&copy; {% now "Y" %} Meher Shaikh.</p>
             <div class="flex space-x-8 mt-6 md:mt-0">
                 <a href="https://github.com/MeherShaikh008" target="_blank" class="hover:text-primary dark:hover:text-white transition-colors">GitHub</a>
                 <a href="https://www.linkedin.com/in/meher-shaikh-893413319/" target="_blank" class="hover:text-primary dark:hover:text-white transition-colors">LinkedIn</a>

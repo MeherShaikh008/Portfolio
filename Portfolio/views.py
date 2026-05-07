@@ -9,21 +9,34 @@ from datetime import timedelta
 from .models import Skill, Project, Experience, ContactMessage, PageVisit
 from .forms import EmailUserCreationForm, EmailAuthenticationForm
 
-@login_required(login_url='login')
 def home(request):
-    return render(request, 'home.html')
+    experiences = Experience.objects.all()
+    skills = Skill.objects.all()
+    projects = Project.objects.all()
+    
+    for project in projects:
+        project.tech_list = [tech.strip() for tech in project.technologies.split(',') if tech.strip()]
+    
+    return render(request, 'home.html', {
+        'experiences': experiences,
+        'skills': skills,
+        'projects': projects
+    })
 
-@login_required(login_url='login')
+
+def about(request):
+    return render(request, 'about.html')
+
+
 def experience(request):
     experiences = Experience.objects.all()
     return render(request, 'experience.html', {'experiences': experiences})
 
-@login_required(login_url='login')
 def skills(request):
     skills = Skill.objects.all()
     return render(request, 'skills.html', {'skills': skills})
 
-@login_required(login_url='login')
+
 def projects(request):
     projects = Project.objects.all()
     categories = []
@@ -38,7 +51,6 @@ def projects(request):
         'categories': categories
     })
 
-@login_required(login_url='login')
 def contact(request):
     if request.method == 'POST':
         name = request.POST.get('name')
@@ -55,39 +67,7 @@ def contact(request):
 
     return render(request, 'contact.html')
 
-def signup(request):
-    if request.user.is_authenticated:
-        return redirect('home')
 
-    if request.method == 'POST':
-        form = EmailUserCreationForm(request.POST)
-        if form.is_valid():
-            user = form.save()
-            login(request, user)
-            messages.success(request, 'Account created successfully!')
-            return redirect('home')
-    else:
-        form = EmailUserCreationForm()
-    return render(request, 'signup.html', {'form': form})
-
-
-def login_view(request):
-    if request.user.is_authenticated:
-        return redirect('home')
-
-    if request.method == 'POST':
-        form = EmailAuthenticationForm(request.POST)
-        if form.is_valid():
-            user = form.get_user()
-            login(request, user)
-            return redirect(request.GET.get('next', 'home'))
-    else:
-        form = EmailAuthenticationForm()
-
-    return render(request, 'login.html', {'form': form})
-
-
-@login_required(login_url='login')
 def dashboard(request):
     user_visits = PageVisit.objects.filter(user=request.user)
     total_visits = user_visits.count()
@@ -102,13 +82,8 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 
-def custom_logout(request):
-    logout(request)
-    messages.success(request, 'You have logged out successfully.')
-    return redirect('login')
 
 
-@login_required(login_url='login')
 def admin_dashboard(request):
     now = timezone.now()
     last_30_days = now - timedelta(days=30)

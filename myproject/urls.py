@@ -22,9 +22,5 @@ from Portfolio import views as portfolio_views
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("login/", portfolio_views.login_view, name='login'),
-    path("accounts/login/", RedirectView.as_view(pattern_name='login', permanent=False)),
-    path("logout/", portfolio_views.custom_logout, name='logout'),
-    path("accounts/logout/", portfolio_views.custom_logout),
     path("", include("Portfolio.urls")),
 ]

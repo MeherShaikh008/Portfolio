@@ -1,8 +1,14 @@
 ﻿{% extends 'base.html' %}
 
 {% block content %}
-<section class="min-h-screen bg-zinc-50 dark:bg-darkBg py-24 transition-colors duration-500">
-    <div class="max-w-6xl mx-auto px-6 lg:px-8">
+<section class="relative min-h-screen bg-zinc-50 dark:bg-darkBg py-24 transition-colors duration-500 overflow-hidden">
+    <!-- Decorative Background -->
+    <div class="absolute inset-0 z-0 opacity-30 dark:opacity-20 pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-primary/20 blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-indigo-400/20 blur-3xl"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-6xl mx-auto px-6 lg:px-8">
         <div class="text-center mb-16" data-aos="fade-up">
             <p class="text-sm uppercase tracking-[0.3em] text-primary dark:text-indigo-400 font-semibold mb-3">Career Timeline</p>
             <h1 class="text-4xl md:text-5xl font-bold text-zinc-900 dark:text-white">Professional Experience</h1>

@@ -2,11 +2,18 @@
 
 {% block content %}
 <!-- Skills Section -->
-<section id="skills" class="py-32 bg-white dark:bg-darkBg transition-colors duration-500 border-t border-zinc-200 dark:border-zinc-800">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
+<section id="skills" class="relative py-32 bg-white dark:bg-darkBg transition-colors duration-500 border-t border-zinc-200 dark:border-zinc-800 overflow-hidden">
+    <!-- Decorative Background -->
+    <div class="absolute inset-0 z-0 opacity-30 dark:opacity-20 pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-80 h-80 rounded-full bg-primary/20 blur-3xl"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 rounded-full bg-indigo-400/20 blur-3xl"></div>
+    </div>
+    
+    <div class="relative z-10 max-w-7xl mx-auto px-6 lg:px-8">
         <div class="text-center mb-20" data-aos="fade-up">
             <h2 class="text-sm font-semibold text-primary dark:text-indigo-400 tracking-wider uppercase mb-3">Expertise</h2>
             <h3 class="text-4xl font-bold text-zinc-900 dark:text-white">My Skills</h3>
+            <p class="mt-4 text-zinc-600 dark:text-mutedDark max-w-2xl mx-auto text-lg">Technologies and tools I've mastered throughout my journey as a developer.</p>
         </div>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {% for skill in skills %}
